@@ -1,0 +1,122 @@
+{
+   "creationTimeStamp": "2025-03-12T16:50:51.979Z",
+   "createdBy": "Andres.Acevedo",
+   "modifiedTimeStamp": "2025-03-12T16:57:03.786Z",
+   "modifiedBy": "katherin.quinones",
+   "id": "8469c4b4-0960-4149-89e3-2b72f0da2666",
+   "name": "BAC_VALOR-CLIENTE-CRI-HIP-12M_PRED_XGB_M",
+   "description": "Modelo el cual predice el rango de rentabilidad acumulada en los siguentes 12 meses para el segmento cliente hipoteca (Cliente que por lo menos tiene una hipoteca)",
+   "scoreCodeType": "python",
+   "algorithm": "XGBoost",
+   "function": "classification",
+   "modeler": "andres.acevedo",
+   "modelType": "python",
+   "trainCodeType": "python",
+   "targetLevel": "ordinal",
+   "tool": "Python 3",
+   "toolVersion": "3.9",
+   "externalUrl": "https://github.com/adldigitallabs/data-bac-integration-ds-customer-value/tree/dev_backup/dev/01-desarrollo-caso-uso/05-training-evaluacion/cri_12meses",
+   "modelVersionName": "1.0",
+   "custom properties": [
+      {
+         "name": "ADL_ACRE",
+         "value": "1000001 Analitica Core",
+         "type": "string"
+      },
+      {
+         "name": "ADL_ARES",
+         "value": "1000003 Ingenieria",
+         "type": "string"
+      },
+      {
+         "name": "ADL_ARUS",
+         "value": "BAC",
+         "type": "string"
+      },
+      {
+         "name": "DS_CAMD",
+         "value": "1000002 Clasificación",
+         "type": "string"
+      },
+      {
+         "name": "DS_EVOM",
+         "value": "1000002 Ordinal",
+         "type": "string"
+      },
+      {
+         "name": "DS_ESMD",
+         "value": "1000003 Piloto",
+         "type": "string"
+      },
+      {
+         "name": "DS_FEDI",
+         "value": "2024/09/12",
+         "type": "string"
+      },
+      {
+         "name": "DS_FEVE",
+         "value": "2024/09/12",
+         "type": "string"
+      },
+      {
+         "name": "DS_FFCL",
+         "value": "2024/09/12",
+         "type": "string"
+      },
+      {
+         "name": "DS_FFVL",
+         "value": "2024/09/12",
+         "type": "string"
+      },
+      {
+         "name": "DS_FIMO",
+         "value": "\"clientes/{pais}-caracterizacion/clientes_{pais}-caracterizacion_dwh-personas_m{mes}, productos/{pais}-cif/productos_{pais}-cif_dwh-personas_m{mes}, productos/{pais}-cuentas-bco/productos_{pais}-cuentas-bco_dwh-personas_m{mes}, productos/{pais}-cuentas-com/productos_{pais}-cuentas-com_dwh-personas_m{mes}, transacciones/{pais}-facturacion-com/transacciones_{pais}-facturacion-com_dwh-personas_m{mes}, clientes/{pais}-afiliados-cargaut/clientes_{pais}-afiliados-cargaut_sandbox-rfm_m{mes}, clientes/{pais}-planil",
+         "type": "string"
+      },
+      {
+         "name": "DS_HRMD",
+         "value": "1000004 Python",
+         "type": "string"
+      },
+      {
+         "name": "M_REMA_INDM",
+         "value": "1000010 Área bajo la curva ROC (AUC Area under the ROC curve): 76.06",
+         "type": "string"
+      },
+      {
+         "name": "DS_MTMD",
+         "value": "1000010  Área bajo la curva ROC (AUC Area under the ROC curve): 76.06",
+         "type": "string"
+      },
+      {
+         "name": "DS_NVMD",
+         "value": "1000001 Estratégico",
+         "type": "string"
+      },
+      {
+         "name": "DS_PRMD",
+         "value": "1000005 Mensual",
+         "type": "string"
+      },
+      {
+         "name": "DS_TAMD",
+         "value": "1000001 Supervisado",
+         "type": "string"
+      },
+      {
+         "name": "DS_TPAN",
+         "value": "1000003 Predictiva",
+         "type": "string"
+      },
+      {
+         "name": "DS_TEMA",
+         "value": "1000001 Automático",
+         "type": "string"
+      },
+      {
+         "name": "DS_TPMD",
+         "value": "1000001 Business Analytics (BA)",
+         "type": "string"
+      }
+   ]
+}

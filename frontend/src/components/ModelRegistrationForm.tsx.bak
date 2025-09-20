@@ -1,0 +1,122 @@
+import React, { useState } from 'react';
+import { Form, Input, Select, Upload, Button, message } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import axios from 'axios';
+
+const { TextArea } = Input;
+
+const ModelRegistrationForm: React.FC = () => {
+  const [form] = Form.useForm();
+  const [fileList, setFileList] = useState<any[]>([]);
+
+  const onFinish = async (values: any) => {
+    try {
+      if (fileList.length > 0) {
+        const formData = new FormData();
+        formData.append('file', fileList[0]);
+        await axios.post('http://localhost:8000/models/from-json-file', formData);
+      } else {
+        const modelData = {
+          ...values,
+          creationTimeStamp: new Date().toISOString(),
+          createdBy: values.modeler || 'anonymous',
+          id: '', // Se generará en el backend
+          custom_properties: []
+        };
+        await axios.post('http://localhost:8000/models', modelData);
+      }
+      message.success('Modelo registrado exitosamente');
+      form.resetFields();
+      setFileList([]);
+    } catch (error) {
+      message.error('Error al registrar el modelo');
+      console.error(error);
+    }
+  };
+
+  const beforeUpload = (file: File) => {
+    const isJSON = file.type === 'application/json';
+    if (!isJSON) {
+      message.error('Solo se permiten archivos JSON!');
+      return false;
+    }
+    setFileList([file]);
+    return false;
+  };
+
+  return (
+    <Form
+      form={form}
+      layout="vertical"
+      onFinish={onFinish}
+      style={{ maxWidth: 800 }}
+    >
+      <Form.Item>
+        <Upload
+          beforeUpload={beforeUpload}
+          fileList={fileList}
+          onRemove={() => setFileList([])}
+        >
+          <Button icon={<UploadOutlined />}>Cargar JSON</Button>
+        </Upload>
+      </Form.Item>
+
+      <Form.Item
+        label="Nombre del Modelo"
+        name="name"
+        rules={[{ required: true, message: 'Por favor ingrese el nombre del modelo' }]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        label="Descripción"
+        name="description"
+        rules={[{ required: true, message: 'Por favor ingrese una descripción' }]}
+      >
+        <TextArea rows={4} />
+      </Form.Item>
+
+      <Form.Item
+        label="Algoritmo"
+        name="algorithm"
+        rules={[{ required: true, message: 'Por favor seleccione un algoritmo' }]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        label="Función"
+        name="function"
+        rules={[{ required: true, message: 'Por favor seleccione una función' }]}
+      >
+        <Select>
+          <Select.Option value="classification">Clasificación</Select.Option>
+          <Select.Option value="regression">Regresión</Select.Option>
+          <Select.Option value="clustering">Clustering</Select.Option>
+          <Select.Option value="generative">Generativo</Select.Option>
+        </Select>
+      </Form.Item>
+
+      <Form.Item
+        label="Tipo de Modelo"
+        name="modelType"
+        rules={[{ required: true, message: 'Por favor seleccione el tipo de modelo' }]}
+      >
+        <Select>
+          <Select.Option value="python">Python</Select.Option>
+          <Select.Option value="r">R</Select.Option>
+          <Select.Option value="java">Java</Select.Option>
+        </Select>
+      </Form.Item>
+
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Registrar Modelo
+        </Button>
+      </Form.Item>
+    </Form>
+  );
+};
+
+export default ModelRegistrationForm;
