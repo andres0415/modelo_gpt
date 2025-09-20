@@ -1,0 +1,85 @@
+id,version,name,algorithm,model_type,programming_language,created_at,updated_at,is_latest,payload.id,payload.model_group_id,payload.version,payload.name,payload.algorithm,payload.model_type,payload.programming_language,payload.metrics_json,payload.tags_json,payload.raw_payload_json,payload.source_filename,payload.created_at,payload.updated_at,payload.is_latest,payload.previous_version_id,payload.creationTimeStamp,payload.createdBy,payload.modifiedTimeStamp,payload.modifiedBy,payload.description,payload.scoreCodeType,payload.function,payload.modeler,payload.modelType,payload.trainCodeType,payload.targetLevel,payload.tool,payload.toolVersion,payload.externalUrl,payload.modelVersionName,payload.custom_properties
+8469c4b4-0960-4149-89e3-2b72f0da2666,1,BAC_VALOR-CLIENTE-CRI-HIP-12M_PRED_XGB_M,XGBoost,python,python,,,True,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+8469c4b4-0960-4149-89e3-2b72f0da2666,1,BAC_VALOR-CLIENTE-CRI-HIP-12M_PRED_XGB_M,XGBoost,python,python,,,True,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+8469c4b4-0960-4149-89e3-2b72f0da2666,1,BAC_VALOR-CLIENTE-CRI-HIP-12M_PRED_XGB_M,XGBoost,python,python,,,True,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+8469c4b4-0960-4149-89e3-2b72f0da2666,1,BAC_VALOR-CLIENTE-CRI-HIP-12M_PRED_XGB_M,XGBoost,python,python,,,True,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+8469c4b4-0960-4149-89e3-2b72f0da2666,1,BAC_VALOR-CLIENTE-CRI-HIP-12M_PRED_XGB_M,XGBoost,python,python,2025-03-12 16:50:51.979000+00:00,2025-03-12 16:57:03.786000+00:00,True,8469c4b4-0960-4149-89e3-2b72f0da2666,,1.0,BAC_VALOR-CLIENTE-CRI-HIP-12M_PRED_XGB_M,XGBoost,,,,,,,,,,,2025-03-12 16:50:51.979000+00:00,Andres.Acevedo,2025-03-12 16:57:03.786000+00:00,katherin.quinones,Modelo el cual predice el rango de rentabilidad acumulada en los siguentes 12 meses para el segmento cliente hipoteca (Cliente que por lo menos tiene una hipoteca),python,classification,andres.acevedo,python,python,ordinal,Python 3,3.9,https://github.com/adldigitallabs/data-bac-integration-ds-customer-value/tree/dev_backup/dev/01-desarrollo-caso-uso/05-training-evaluacion/cri_12meses,1.0,"[{'name': 'ADL_ACRE', 'type': 'string', 'value': '1000001 Analitica Core'}
+ {'name': 'ADL_ARES', 'type': 'string', 'value': '1000003 Ingenieria'}
+ {'name': 'ADL_ARUS', 'type': 'string', 'value': 'BAC'}
+ {'name': 'DS_CAMD', 'type': 'string', 'value': '1000002 Clasificación'}
+ {'name': 'DS_EVOM', 'type': 'string', 'value': '1000002 Ordinal'}
+ {'name': 'DS_ESMD', 'type': 'string', 'value': '1000003 Piloto'}
+ {'name': 'DS_FEDI', 'type': 'string', 'value': '2024/09/12'}
+ {'name': 'DS_FEVE', 'type': 'string', 'value': '2024/09/12'}
+ {'name': 'DS_FFCL', 'type': 'string', 'value': '2024/09/12'}
+ {'name': 'DS_FFVL', 'type': 'string', 'value': '2024/09/12'}
+ {'name': 'DS_FIMO', 'type': 'string', 'value': '""clientes/{pais}-caracterizacion/clientes_{pais}-caracterizacion_dwh-personas_m{mes}, productos/{pais}-cif/productos_{pais}-cif_dwh-personas_m{mes}, productos/{pais}-cuentas-bco/productos_{pais}-cuentas-bco_dwh-personas_m{mes}, productos/{pais}-cuentas-com/productos_{pais}-cuentas-com_dwh-personas_m{mes}, transacciones/{pais}-facturacion-com/transacciones_{pais}-facturacion-com_dwh-personas_m{mes}, clientes/{pais}-afiliados-cargaut/clientes_{pais}-afiliados-cargaut_sandbox-rfm_m{mes}, clientes/{pais}-planil'}
+ {'name': 'DS_HRMD', 'type': 'string', 'value': '1000004 Python'}
+ {'name': 'M_REMA_INDM', 'type': 'string', 'value': '1000010 Área bajo la curva ROC (AUC Area under the ROC curve): 76.06'}
+ {'name': 'DS_MTMD', 'type': 'string', 'value': '1000010  Área bajo la curva ROC (AUC Area under the ROC curve): 76.06'}
+ {'name': 'DS_NVMD', 'type': 'string', 'value': '1000001 Estratégico'}
+ {'name': 'DS_PRMD', 'type': 'string', 'value': '1000005 Mensual'}
+ {'name': 'DS_TAMD', 'type': 'string', 'value': '1000001 Supervisado'}
+ {'name': 'DS_TPAN', 'type': 'string', 'value': '1000003 Predictiva'}
+ {'name': 'DS_TEMA', 'type': 'string', 'value': '1000001 Automático'}
+ {'name': 'DS_TPMD', 'type': 'string', 'value': '1000001 Business Analytics (BA)'}]"
+8469c4b4-0960-4149-89e3-2b72f0da2666,1,BAC_VALOR-CLIENTE-CRI-HIP-12M_PRED_XGB_M,XGBoost,python,python,2025-03-12 16:50:51.979000+00:00,2025-03-12 16:57:03.786000+00:00,True,8469c4b4-0960-4149-89e3-2b72f0da2666,,1.0,BAC_VALOR-CLIENTE-CRI-HIP-12M_PRED_XGB_M,XGBoost,,,,,,,,,,,2025-03-12 16:50:51.979000+00:00,Andres.Acevedo,2025-03-12 16:57:03.786000+00:00,katherin.quinones,Modelo el cual predice el rango de rentabilidad acumulada en los siguentes 12 meses para el segmento cliente hipoteca (Cliente que por lo menos tiene una hipoteca),python,classification,andres.acevedo,python,python,ordinal,Python 3,3.9,https://github.com/adldigitallabs/data-bac-integration-ds-customer-value/tree/dev_backup/dev/01-desarrollo-caso-uso/05-training-evaluacion/cri_12meses,1.0,"[{'name': 'ADL_ACRE', 'type': 'string', 'value': '1000001 Analitica Core'}
+ {'name': 'ADL_ARES', 'type': 'string', 'value': '1000003 Ingenieria'}
+ {'name': 'ADL_ARUS', 'type': 'string', 'value': 'BAC'}
+ {'name': 'DS_CAMD', 'type': 'string', 'value': '1000002 Clasificación'}
+ {'name': 'DS_EVOM', 'type': 'string', 'value': '1000002 Ordinal'}
+ {'name': 'DS_ESMD', 'type': 'string', 'value': '1000003 Piloto'}
+ {'name': 'DS_FEDI', 'type': 'string', 'value': '2024/09/12'}
+ {'name': 'DS_FEVE', 'type': 'string', 'value': '2024/09/12'}
+ {'name': 'DS_FFCL', 'type': 'string', 'value': '2024/09/12'}
+ {'name': 'DS_FFVL', 'type': 'string', 'value': '2024/09/12'}
+ {'name': 'DS_FIMO', 'type': 'string', 'value': '""clientes/{pais}-caracterizacion/clientes_{pais}-caracterizacion_dwh-personas_m{mes}, productos/{pais}-cif/productos_{pais}-cif_dwh-personas_m{mes}, productos/{pais}-cuentas-bco/productos_{pais}-cuentas-bco_dwh-personas_m{mes}, productos/{pais}-cuentas-com/productos_{pais}-cuentas-com_dwh-personas_m{mes}, transacciones/{pais}-facturacion-com/transacciones_{pais}-facturacion-com_dwh-personas_m{mes}, clientes/{pais}-afiliados-cargaut/clientes_{pais}-afiliados-cargaut_sandbox-rfm_m{mes}, clientes/{pais}-planil'}
+ {'name': 'DS_HRMD', 'type': 'string', 'value': '1000004 Python'}
+ {'name': 'M_REMA_INDM', 'type': 'string', 'value': '1000010 Área bajo la curva ROC (AUC Area under the ROC curve): 76.06'}
+ {'name': 'DS_MTMD', 'type': 'string', 'value': '1000010  Área bajo la curva ROC (AUC Area under the ROC curve): 76.06'}
+ {'name': 'DS_NVMD', 'type': 'string', 'value': '1000001 Estratégico'}
+ {'name': 'DS_PRMD', 'type': 'string', 'value': '1000005 Mensual'}
+ {'name': 'DS_TAMD', 'type': 'string', 'value': '1000001 Supervisado'}
+ {'name': 'DS_TPAN', 'type': 'string', 'value': '1000003 Predictiva'}
+ {'name': 'DS_TEMA', 'type': 'string', 'value': '1000001 Automático'}
+ {'name': 'DS_TPMD', 'type': 'string', 'value': '1000001 Business Analytics (BA)'}]"
+8469c4b4-0960-4149-89e3-2b72f0da2666,1,BAC_VALOR-CLIENTE-CRI-HIP-12M_PRED_XGB_M,XGBoost,python,python,2025-03-12 16:50:51.979000+00:00,2025-03-12 16:57:03.786000+00:00,True,8469c4b4-0960-4149-89e3-2b72f0da2666,,1.0,BAC_VALOR-CLIENTE-CRI-HIP-12M_PRED_XGB_M,XGBoost,,,,,,,,,,,2025-03-12 16:50:51.979000+00:00,Andres.Acevedo,2025-03-12 16:57:03.786000+00:00,katherin.quinones,Modelo el cual predice el rango de rentabilidad acumulada en los siguentes 12 meses para el segmento cliente hipoteca (Cliente que por lo menos tiene una hipoteca),python,classification,andres.acevedo,python,python,ordinal,Python 3,3.9,https://github.com/adldigitallabs/data-bac-integration-ds-customer-value/tree/dev_backup/dev/01-desarrollo-caso-uso/05-training-evaluacion/cri_12meses,1.0,"[{'name': 'ADL_ACRE', 'type': 'string', 'value': '1000001 Analitica Core'}
+ {'name': 'ADL_ARES', 'type': 'string', 'value': '1000003 Ingenieria'}
+ {'name': 'ADL_ARUS', 'type': 'string', 'value': 'BAC'}
+ {'name': 'DS_CAMD', 'type': 'string', 'value': '1000002 Clasificación'}
+ {'name': 'DS_EVOM', 'type': 'string', 'value': '1000002 Ordinal'}
+ {'name': 'DS_ESMD', 'type': 'string', 'value': '1000003 Piloto'}
+ {'name': 'DS_FEDI', 'type': 'string', 'value': '2024/09/12'}
+ {'name': 'DS_FEVE', 'type': 'string', 'value': '2024/09/12'}
+ {'name': 'DS_FFCL', 'type': 'string', 'value': '2024/09/12'}
+ {'name': 'DS_FFVL', 'type': 'string', 'value': '2024/09/12'}
+ {'name': 'DS_FIMO', 'type': 'string', 'value': '""clientes/{pais}-caracterizacion/clientes_{pais}-caracterizacion_dwh-personas_m{mes}, productos/{pais}-cif/productos_{pais}-cif_dwh-personas_m{mes}, productos/{pais}-cuentas-bco/productos_{pais}-cuentas-bco_dwh-personas_m{mes}, productos/{pais}-cuentas-com/productos_{pais}-cuentas-com_dwh-personas_m{mes}, transacciones/{pais}-facturacion-com/transacciones_{pais}-facturacion-com_dwh-personas_m{mes}, clientes/{pais}-afiliados-cargaut/clientes_{pais}-afiliados-cargaut_sandbox-rfm_m{mes}, clientes/{pais}-planil'}
+ {'name': 'DS_HRMD', 'type': 'string', 'value': '1000004 Python'}
+ {'name': 'M_REMA_INDM', 'type': 'string', 'value': '1000010 Área bajo la curva ROC (AUC Area under the ROC curve): 76.06'}
+ {'name': 'DS_MTMD', 'type': 'string', 'value': '1000010  Área bajo la curva ROC (AUC Area under the ROC curve): 76.06'}
+ {'name': 'DS_NVMD', 'type': 'string', 'value': '1000001 Estratégico'}
+ {'name': 'DS_PRMD', 'type': 'string', 'value': '1000005 Mensual'}
+ {'name': 'DS_TAMD', 'type': 'string', 'value': '1000001 Supervisado'}
+ {'name': 'DS_TPAN', 'type': 'string', 'value': '1000003 Predictiva'}
+ {'name': 'DS_TEMA', 'type': 'string', 'value': '1000001 Automático'}
+ {'name': 'DS_TPMD', 'type': 'string', 'value': '1000001 Business Analytics (BA)'}]"
+8469c4b4-0960-4149-89e3-2b72f0da2666,1,BAC_VALOR-CLIENTE-CRI-HIP-12M_PRED_XGB_M,XGBoost,python,python,2025-03-12 16:50:51.979000+00:00,2025-03-12 16:57:03.786000+00:00,True,8469c4b4-0960-4149-89e3-2b72f0da2666,,1.0,BAC_VALOR-CLIENTE-CRI-HIP-12M_PRED_XGB_M,XGBoost,,,,,,,,,,,2025-03-12 16:50:51.979000+00:00,Andres.Acevedo,2025-03-12 16:57:03.786000+00:00,katherin.quinones,Modelo el cual predice el rango de rentabilidad acumulada en los siguentes 12 meses para el segmento cliente hipoteca (Cliente que por lo menos tiene una hipoteca),python,classification,andres.acevedo,python,python,ordinal,Python 3,3.9,https://github.com/adldigitallabs/data-bac-integration-ds-customer-value/tree/dev_backup/dev/01-desarrollo-caso-uso/05-training-evaluacion/cri_12meses,1.0,"[{'name': 'ADL_ACRE', 'type': 'string', 'value': '1000001 Analitica Core'}
+ {'name': 'ADL_ARES', 'type': 'string', 'value': '1000003 Ingenieria'}
+ {'name': 'ADL_ARUS', 'type': 'string', 'value': 'BAC'}
+ {'name': 'DS_CAMD', 'type': 'string', 'value': '1000002 Clasificación'}
+ {'name': 'DS_EVOM', 'type': 'string', 'value': '1000002 Ordinal'}
+ {'name': 'DS_ESMD', 'type': 'string', 'value': '1000003 Piloto'}
+ {'name': 'DS_FEDI', 'type': 'string', 'value': '2024/09/12'}
+ {'name': 'DS_FEVE', 'type': 'string', 'value': '2024/09/12'}
+ {'name': 'DS_FFCL', 'type': 'string', 'value': '2024/09/12'}
+ {'name': 'DS_FFVL', 'type': 'string', 'value': '2024/09/12'}
+ {'name': 'DS_FIMO', 'type': 'string', 'value': '""clientes/{pais}-caracterizacion/clientes_{pais}-caracterizacion_dwh-personas_m{mes}, productos/{pais}-cif/productos_{pais}-cif_dwh-personas_m{mes}, productos/{pais}-cuentas-bco/productos_{pais}-cuentas-bco_dwh-personas_m{mes}, productos/{pais}-cuentas-com/productos_{pais}-cuentas-com_dwh-personas_m{mes}, transacciones/{pais}-facturacion-com/transacciones_{pais}-facturacion-com_dwh-personas_m{mes}, clientes/{pais}-afiliados-cargaut/clientes_{pais}-afiliados-cargaut_sandbox-rfm_m{mes}, clientes/{pais}-planil'}
+ {'name': 'DS_HRMD', 'type': 'string', 'value': '1000004 Python'}
+ {'name': 'M_REMA_INDM', 'type': 'string', 'value': '1000010 Área bajo la curva ROC (AUC Area under the ROC curve): 76.06'}
+ {'name': 'DS_MTMD', 'type': 'string', 'value': '1000010  Área bajo la curva ROC (AUC Area under the ROC curve): 76.06'}
+ {'name': 'DS_NVMD', 'type': 'string', 'value': '1000001 Estratégico'}
+ {'name': 'DS_PRMD', 'type': 'string', 'value': '1000005 Mensual'}
+ {'name': 'DS_TAMD', 'type': 'string', 'value': '1000001 Supervisado'}
+ {'name': 'DS_TPAN', 'type': 'string', 'value': '1000003 Predictiva'}
+ {'name': 'DS_TEMA', 'type': 'string', 'value': '1000001 Automático'}
+ {'name': 'DS_TPMD', 'type': 'string', 'value': '1000001 Business Analytics (BA)'}]"

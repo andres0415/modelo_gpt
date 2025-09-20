@@ -15,7 +15,7 @@ model_service = ModelService()
 def register_model(model: MLModel):
     return model_service.create_model(model)
 
-@router.post('/from-json-file', response_model=MLModel)
+@router.post('/from-json-file')
 async def register_from_json_file(file: UploadFile = File(...)):
     print(f"Recibiendo archivo: {file.filename}")
     if not file.filename.lower().endswith('.json'):
@@ -27,16 +27,19 @@ async def register_from_json_file(file: UploadFile = File(...)):
         data = json.loads(content)
         print("JSON parseado correctamente")
         print(f"Datos recibidos: {json.dumps(data, indent=2)}")
-        
+
         # Asegurarse de que custom_properties sea una lista
         if "custom_properties" in data and not isinstance(data["custom_properties"], list):
             data["custom_properties"] = []
-        
+
         model = MLModel(**data)
         print("Modelo creado desde JSON")
+
         result = model_service.create_model(model)
         print(f"Modelo guardado con ID: {result.id}")
-        return result
+        # Ruta relativa al export regenerado
+        export_path = str((Path(__file__).resolve().parents[3] / 'data' / 'exports' / 'master_latest.parquet'))
+        return {'model': result, 'export_path': export_path}
     except json.JSONDecodeError as e:
         print(f"Error decodificando JSON: {str(e)}")
         raise HTTPException(status_code=400, detail=f'JSON inválido: {str(e)}')

@@ -1,121 +1,127 @@
 
-from sqlmodel import Session, select
-from ..models import ModelRecord
-from ..utils.json_flatten import flatten
 from pathlib import Path
 import os
 import json
 import pandas as pd
-from datetime import datetime
+from ..utils.json_flatten import flatten
 
-EXPECTED_CORE = ['name','algorithm','model_type','programming_language']
 METRIC_KEYS_CANON = ['accuracy','precision','recall','f1','roc_auc','rmse','mae','mape','bleu','rouge','perplexity']
 
 DATA_DIR = Path(os.getenv('DATA_DIR', Path(__file__).resolve().parents[3] / 'data'))
+MODELS_FILE = DATA_DIR / 'models.parquet'
 EXPORT_DIR = DATA_DIR / 'exports'
 EXPORT_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def _record_to_dict(r: ModelRecord, include_payload: bool = True):
-    base = {
-        'id': r.id,
-        'model_group_id': r.model_group_id,
-        'version': r.version,
-        'name': r.name,
-        'algorithm': r.algorithm,
-        'model_type': r.model_type,
-        'programming_language': r.programming_language,
-        'created_at': r.created_at.isoformat(),
-        'updated_at': r.updated_at.isoformat(),
-        'is_latest': r.is_latest,
-        'source_filename': r.source_filename,
-    }
+def _normalize_row(row: dict, include_payload: bool = True):
+    base = {}
+    # Campos básicos
+    base['id'] = row.get('id')
+    base['version'] = row.get('version')
+    base['name'] = row.get('name')
+    base['algorithm'] = row.get('algorithm')
+    base['model_type'] = row.get('modelType') or row.get('model_type')
+    base['programming_language'] = row.get('scoreCodeType') or row.get('programming_language')
+    base['created_at'] = row.get('creationTimeStamp')
+    base['updated_at'] = row.get('modifiedTimeStamp')
+    base['is_latest'] = True
+    # metrics and tags if present inside payload
     metrics = {}
-    if r.metrics_json:
-        try:
-            metrics = json.loads(r.metrics_json)
-        except Exception:
-            metrics = {}
-    tags = []
-    if r.tags_json:
-        try:
-            tags = json.loads(r.tags_json)
-        except Exception:
-            tags = []
-    base.update({f'metric.{k}': v for k, v in metrics.items()})
-    base['tags'] = ','.join(tags) if tags else None
+    payload = row.get('raw_payload') or row.get('raw_payload_json') or row
+    # Try to extract metrics field
+    if isinstance(payload, dict):
+        metrics = payload.get('metrics', {}) if payload.get('metrics') else {}
 
-    if include_payload and r.raw_payload_json:
-        try:
-            payload = json.loads(r.raw_payload_json)
-            flat = {f'payload.{k}': v for k, v in flatten(payload).items()}
-            base.update(flat)
-        except Exception:
-            pass
+    base.update({f'metric.{k}': v for k, v in (metrics or {}).items()})
+
+    # Flatten raw payload
+    if include_payload and isinstance(payload, dict):
+        flat = {f'payload.{k}': v for k, v in flatten(payload).items()}
+        base.update(flat)
+
     return base
 
 
-def rebuild_master(session: Session):
-    """Genera master_all y master_latest en CSV y Parquet."""
-    records = session.exec(select(ModelRecord)).all()
-    latest = session.exec(select(ModelRecord).where(ModelRecord.is_latest == True)).all()
-
-    all_rows = [_record_to_dict(r) for r in records]
-    latest_rows = [_record_to_dict(r) for r in latest]
-
-    if all_rows:
-        df_all = pd.DataFrame(all_rows)
-        df_all.to_csv(EXPORT_DIR / 'master_all.csv', index=False)
-        df_all.to_parquet(EXPORT_DIR / 'master_all.parquet', index=False)
-    else:
-        # create empty files
+def rebuild_master():
+    """Lee data/models.parquet y genera exports/master_all(.csv|.parquet) y master_latest."""
+    if not MODELS_FILE.exists():
+        # crear archivos vacíos
         (EXPORT_DIR / 'master_all.csv').write_text('')
-
-    if latest_rows:
-        df_latest = pd.DataFrame(latest_rows)
-        df_latest.to_csv(EXPORT_DIR / 'master_latest.csv', index=False)
-        df_latest.to_parquet(EXPORT_DIR / 'master_latest.parquet', index=False)
-    else:
         (EXPORT_DIR / 'master_latest.csv').write_text('')
+        return
+
+    df = pd.read_parquet(MODELS_FILE)
+    if df.empty:
+        (EXPORT_DIR / 'master_all.csv').write_text('')
+        (EXPORT_DIR / 'master_latest.csv').write_text('')
+        return
+
+    # master_all
+    all_rows = [ _normalize_row(r) for r in df.to_dict(orient='records') ]
+    df_all = pd.DataFrame(all_rows)
+    df_all.to_csv(EXPORT_DIR / 'master_all.csv', index=False)
+    df_all.to_parquet(EXPORT_DIR / 'master_all.parquet', index=False)
+
+    # master_latest: agrupar por id y tomar la última versión
+    if 'id' in df.columns and 'version' in df.columns:
+        latest_df = df.sort_values('version').groupby('id', as_index=False).last()
+    else:
+        latest_df = df
+
+    latest_rows = [ _normalize_row(r) for r in latest_df.to_dict(orient='records') ]
+    df_latest = pd.DataFrame(latest_rows)
+    df_latest.to_csv(EXPORT_DIR / 'master_latest.csv', index=False)
+    df_latest.to_parquet(EXPORT_DIR / 'master_latest.parquet', index=False)
 
 
-def compute_insights(session: Session):
-    latest = session.exec(select(ModelRecord).where(ModelRecord.is_latest == True)).all()
-    total = len(latest)
+def compute_insights():
+    """Calcula insights a partir de exports/master_latest.parquet (si existe) o del models.parquet."""
+    latest_file = EXPORT_DIR / 'master_latest.parquet'
+    if latest_file.exists():
+        df = pd.read_parquet(latest_file)
+    elif MODELS_FILE.exists():
+        df_raw = pd.read_parquet(MODELS_FILE)
+        if 'id' in df_raw.columns and 'version' in df_raw.columns:
+            df = df_raw.sort_values('version').groupby('id', as_index=False).last()
+        else:
+            df = df_raw
+    else:
+        return {}
+
+    total = len(df)
     por_tipo = {}
     algo_counts = {}
     lang_counts = {}
     metric_keys = set()
-
-    campos_faltantes = []
     metric_values = {k: [] for k in METRIC_KEYS_CANON}
+    campos_faltantes = []
 
-    import json as _json
+    for _, r in df.iterrows():
+        # tipos y conteos
+        mt = r.get('model_type') or r.get('payload.modelType')
+        if mt:
+            por_tipo[mt] = por_tipo.get(mt, 0) + 1
+        alg = r.get('algorithm') or r.get('payload.algorithm')
+        if alg:
+            algo_counts[alg] = algo_counts.get(alg, 0) + 1
+        lang = r.get('programming_language') or r.get('payload.scoreCodeType')
+        if lang:
+            lang_counts[lang] = lang_counts.get(lang, 0) + 1
 
-    for r in latest:
-        # tipo
-        if r.model_type:
-            por_tipo[r.model_type] = por_tipo.get(r.model_type, 0) + 1
-        # algoritmo
-        if r.algorithm:
-            algo_counts[r.algorithm] = algo_counts.get(r.algorithm, 0) + 1
-        # lenguaje
-        if r.programming_language:
-            lang_counts[r.programming_language] = lang_counts.get(r.programming_language, 0) + 1
-        # métricas
-        metrics = {}
-        if r.metrics_json:
-            try:
-                metrics = _json.loads(r.metrics_json)
-            except Exception:
-                metrics = {}
-        metric_keys.update(metrics.keys())
+        # métricas (busca columnas metric.<k>)
         for k in METRIC_KEYS_CANON:
-            v = metrics.get(k)
-            if isinstance(v, (int, float)):
-                metric_values[k].append(float(v))
-        # campos faltantes
-        missing = sum(1 for ck in EXPECTED_CORE if getattr(r, ck if ck!='programming_language' else 'programming_language') in (None, '', []))
+            col = f'metric.{k}'
+            if col in r and pd.notna(r[col]):
+                try:
+                    v = float(r[col])
+                    metric_values[k].append(v)
+                    metric_keys.add(k)
+                except Exception:
+                    pass
+
+        # campos faltantes promedio: verificar core
+        core_fields = [r.get('name') or r.get('payload.name'), r.get('algorithm') or r.get('payload.algorithm'), mt, lang]
+        missing = sum(1 for x in core_fields if x in (None, '', []))
         campos_faltantes.append(missing)
 
     algoritmo_mas_usado = None

@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routers import models
+from .routers import models, exports, dashboard
 
 app = FastAPI(title='ML & GenAI Model Registry')
 
@@ -14,6 +14,8 @@ app.add_middleware(
 )
 
 app.include_router(models.router)
+app.include_router(exports.router)
+app.include_router(dashboard.router)
 
 @app.get("/")
 async def root():

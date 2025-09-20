@@ -24,6 +24,13 @@ class ModelService:
     def _save_df(self):
         print(f"Guardando datos en: {self.models_file}")
         self.df.to_parquet(self.models_file, index=False)
+        try:
+            # Regenerar exports después de guardar
+            from .master import rebuild_master
+            print("Regenerando exports master...")
+            rebuild_master()
+        except Exception as e:
+            print(f"Warning: fallo al regenerar exports: {e}")
 
     def create_model(self, model: MLModel) -> MLModel:
         try:
@@ -33,12 +40,17 @@ class ModelService:
                 print(f"Generado nuevo ID: {model.id}")
             
             print("Convirtiendo modelo a diccionario")
-            model_dict = model.model_dump()
+            # Usar .dict() para compatibilidad con pydantic v1
+            if hasattr(model, 'dict'):
+                model_dict = model.dict()
+            else:
+                # pydantic v2 fallback
+                model_dict = model.model_dump()
             
             print("Procesando propiedades personalizadas")
             if hasattr(model, 'custom_properties'):
                 model_dict["custom_properties"] = [
-                    prop.model_dump() if hasattr(prop, 'model_dump') else prop 
+                    (prop.dict() if hasattr(prop, 'dict') else prop.model_dump()) if hasattr(prop, 'model_dump') or hasattr(prop, 'dict') else prop
                     for prop in model.custom_properties
                 ]
             
@@ -70,8 +82,11 @@ class ModelService:
             model.version = current_version + 1
             model.modifiedTimeStamp = datetime.now()
             
-            model_dict = model.model_dump()
-            model_dict["custom_properties"] = [prop.model_dump() for prop in model.custom_properties]
+            if hasattr(model, 'dict'):
+                model_dict = model.dict()
+            else:
+                model_dict = model.model_dump()
+            model_dict["custom_properties"] = [prop.dict() if hasattr(prop, 'dict') else prop.model_dump() for prop in model.custom_properties]
             
             self.df = pd.concat([self.df, pd.DataFrame([model_dict])], ignore_index=True)
             self._save_df()

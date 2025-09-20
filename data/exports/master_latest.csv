@@ -1,0 +1,2 @@
+id,version,name,algorithm,model_type,programming_language,created_at,updated_at,is_latest
+8469c4b4-0960-4149-89e3-2b72f0da2666,1,BAC_VALOR-CLIENTE-CRI-HIP-12M_PRED_XGB_M,XGBoost,python,python,2025-03-12 16:50:51.979000+00:00,2025-03-12 16:57:03.786000+00:00,True

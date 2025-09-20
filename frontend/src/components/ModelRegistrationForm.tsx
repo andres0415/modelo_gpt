@@ -3,24 +3,29 @@ import { Form, Input, Select, Upload, Button, message, Divider } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000';
+
 const { TextArea } = Input;
 
 const ModelRegistrationForm: React.FC = () => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<any[]>([]);
   const [isJsonMode, setIsJsonMode] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const onFinish = async (values: any) => {
     try {
+      setLoading(true);
       if (fileList.length > 0) {
+        console.log('Enviando archivo desde frontend', fileList[0]);
         const formData = new FormData();
-        formData.append('file', fileList[0]);
-        await axios.post('http://localhost:8000/models/from-json-file', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-        message.success('Modelo registrado exitosamente desde JSON');
+        const f = (fileList[0] as any).originFileObj || fileList[0];
+        formData.append('file', f, f.name || 'upload.json');
+        // No forzar Content-Type: dejar que el navegador añada el boundary
+        const resp = await axios.post(`${API_BASE}/models/from-json-file`, formData);
+        const data = resp.data;
+        const exportPath = data?.export_path;
+        message.success(`Modelo registrado exitosamente desde JSON${exportPath ? ` — export: ${exportPath}` : ''}`);
       } else {
         const modelData = {
           ...values,
@@ -36,13 +41,15 @@ const ModelRegistrationForm: React.FC = () => {
           modelVersionName: '1.0',
           custom_properties: []
         };
-        await axios.post('http://localhost:8000/models', modelData);
+        await axios.post(`${API_BASE}/models`, modelData);
         message.success('Modelo registrado exitosamente desde formulario');
       }
       form.resetFields();
       setFileList([]);
       setIsJsonMode(false);
+      setLoading(false);
     } catch (error: any) {
+      setLoading(false);
       message.error(`Error al registrar el modelo: ${error.response?.data?.detail || error.message}`);
       console.error(error);
     }
@@ -54,9 +61,16 @@ const ModelRegistrationForm: React.FC = () => {
       message.error('Solo se permiten archivos JSON!');
       return false;
     }
-    setFileList([file]);
+    // Normalizar a shape que AntD Upload espera
+    const uploadFile = {
+      uid: `${Date.now()}`,
+      name: file.name,
+      status: 'done',
+      originFileObj: file,
+    } as any;
+    setFileList([uploadFile]);
     setIsJsonMode(true);
-    return false;
+    return false; // evitar upload automático
   };
 
   const onRemoveFile = () => {
@@ -169,7 +183,7 @@ const ModelRegistrationForm: React.FC = () => {
       )}
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={loading}>
           {isJsonMode ? 'Registrar desde JSON' : 'Registrar Modelo'}
         </Button>
       </Form.Item>
